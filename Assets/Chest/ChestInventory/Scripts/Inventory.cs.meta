@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 12cdfcd08ea025d4b9f970fa680bbfa9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - coinPrefab: {instanceID: 0}
+  - healthPotionPrefab: {instanceID: 0}
+  - moralityPotionPrefab: {instanceID: 0}
+  - ringPrefab: {instanceID: 0}
+  - coinCountText: {instanceID: 0}
+  - healthPotionCountText: {instanceID: 0}
+  - moralityPotionCountText: {instanceID: 0}
+  - canvas: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
