@@ -452,15 +452,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chest: {fileID: 2104358662}
-  coinPrefab: {fileID: 5513460214392506571, guid: c058a0edaf2ab724e853649406b613e5, type: 3}
-  healthPotionPrefab: {fileID: 8629192639295518147, guid: 899f325a08fd14a4c91b85f0dce4f97f, type: 3}
-  moralityPotionPrefab: {fileID: 8461390027834938926, guid: 7ffa2af8f35f7a64e9c16508890aa6d6, type: 3}
-  ringPrefab: {fileID: 6467845676019209543, guid: 6d3651d4b06b19846884a7924c264a90, type: 3}
-  coinTextChanger: {fileID: 7898978969380157466, guid: c058a0edaf2ab724e853649406b613e5, type: 3}
-  healthPotionTextChanger: {fileID: 1153790982633917912, guid: 899f325a08fd14a4c91b85f0dce4f97f, type: 3}
-  moralityPotionTextChanger: {fileID: 2552930099367522484, guid: 7ffa2af8f35f7a64e9c16508890aa6d6, type: 3}
-  ringTextChanger: {fileID: 7292417517097656831, guid: 6d3651d4b06b19846884a7924c264a90, type: 3}
-  canvas: {fileID: 204772615}
+  coinPrefab: {fileID: 349465133214323956, guid: 2318291e4b12d9a41b428a57c1475af2, type: 3}
+  healthPotionPrefab: {fileID: 1655967188214514016, guid: 44ddd6503d22f7c49854ae7dd6af3fe5, type: 3}
+  moralityPotionPrefab: {fileID: 417547347433184768, guid: 9ecaa04c881ddf341999314b55bbeb67, type: 3}
+  ringPrefab: {fileID: 7195651689586283424, guid: 23737a18b273f8a448788a2fec291075, type: 3}
+  coinTextChanger: {fileID: 6233394754610007505, guid: 2318291e4b12d9a41b428a57c1475af2, type: 3}
+  healthPotionTextChanger: {fileID: 7352929159875300357, guid: 44ddd6503d22f7c49854ae7dd6af3fe5, type: 3}
+  moralityPotionTextChanger: {fileID: 5857768828378718662, guid: 9ecaa04c881ddf341999314b55bbeb67, type: 3}
+  ringTextChanger: {fileID: 4687244201884594724, guid: 23737a18b273f8a448788a2fec291075, type: 3}
+  canvasRectTransform: {fileID: 204772612}
   minSpawnTime: 5
   maxSpawnTime: 10
 --- !u!1 &540174844
@@ -1638,7 +1638,7 @@ Transform:
   m_GameObject: {fileID: 2104358662}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.04, y: -3.5, z: 0}
+  m_LocalPosition: {x: -12, y: -3.26, z: 0}
   m_LocalScale: {x: 0.40000004, y: 0.40000004, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
