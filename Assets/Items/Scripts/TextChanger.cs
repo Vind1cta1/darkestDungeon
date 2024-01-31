@@ -14,4 +14,9 @@ public class TextChanger : MonoBehaviour
             textMesh.text = newText;
         }
     }
+
+    public string GetText()
+    {
+        return textMesh.text;
+    }
 }

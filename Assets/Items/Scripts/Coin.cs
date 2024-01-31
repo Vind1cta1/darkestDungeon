@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class Coin : Item
+public class Coin: MonoBehaviour
 {
-    public int value;
+    private int value;
 
-    public Coin(int value)
+    public void SetQuantityOfMoney(int value)
     {
-        itemName = "Coins";
-        description = "Precious coins, world currency.";
         this.value = value;
+        Debug.Log(value);
     }
 
-    public override void Use()
+    public int GetMoneyAmount()
     {
-
+        return value;
     }
 }

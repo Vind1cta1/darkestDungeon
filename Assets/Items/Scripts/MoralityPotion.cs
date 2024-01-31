@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoralityPotion : Item
+public class MoralityPotion : MonoBehaviour
 {
-    public int moralityAmount;
-    public List<Character> partyMembers;
+    private int moralityAmount;
+    private List<Character> partyMembers;
 
-    public MoralityPotion(int moralityAmount)
+    public void SetQuantityOfMoralityPotion(int moralityAmount)
     {
-        itemName = "Morality Potion";
-        description = "Restores character's morality.";
         this.moralityAmount = moralityAmount;
+        Debug.Log(moralityAmount);
     }
 
-    public override void Use()
+    public void Use()
     {
         foreach (Character character in partyMembers)
         {
             character.RestoreMorale(moralityAmount);
         }
+    }
+
+    public int GetMoralityPotionAmount()
+    {
+        return moralityAmount;
     }
 }

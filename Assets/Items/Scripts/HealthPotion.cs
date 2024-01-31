@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthPotion : Item
+public class HealthPotion : MonoBehaviour 
 {
-    public int healingAmount;
-    public List<Character> partyMembers;
+    private int healingAmount;
+    private List<Character> partyMembers;
 
-    public HealthPotion(int healingAmount)
+    public void SetQuantityOfHealthPotion(int healingAmount)
     {
-        itemName = "Health Potion";
-        description = "Restores character's health.";
         this.healingAmount = healingAmount;
+        Debug.Log(healingAmount);
     }
 
-    public override void Use()
+    public void Use()
     {
         foreach (Character character in partyMembers)
         {
             character.ReceiveHealing(healingAmount);
         }
+    }
+
+    public int GetHealthPotionAmount()
+    {
+        return healingAmount;
     }
 }

@@ -1,23 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System.Timers;
 
 public class ChestController : MonoBehaviour
 {
-    [SerializeField] private float chestSpeed = 5.45f;
+    private float chestSpeed = 5.45f;
 
-    public bool isopen;
+    public bool isOpen;
+    public bool isInRoom = true;
+    public PlayerController playerController;
     public GameObject inventoryUI;
-    public List<Item> itemsInChest;
+    public TMP_Text moneyQuantity;
+    public TMP_Text healthQuantity;
+    public TMP_Text moralityQuantity;
+    public TextChanger coinTextChanger;
+    public TextChanger healthPotionTextChanger;
+    public TextChanger moralityPotionTextChanger;
 
-    void Update()
+    private void Start()
     {
-        if (transform.position.x < -9f)
+        playerController = FindObjectOfType<PlayerController>();
+    }
+    private void Update()
+    {
+        if(!isInRoom)
         {
-            gameObject.SetActive(false);
-        }
-        if (!isopen)
-        {
-            transform.position = transform.position - new Vector3(Time.deltaTime * chestSpeed, 0f, 0f);
+            if (!isOpen && transform.position.x > -10f)
+            {
+                transform.position = transform.position - new Vector3(Time.deltaTime * chestSpeed, 0f, 0f);
+            }
         }
     }
 
@@ -25,25 +37,57 @@ public class ChestController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            isopen = true;
+            isOpen = true;
             inventoryUI.SetActive(true);
         }
     }
 
     public void OnPickupButtonClicked()
     {
-
-        //foreach (Item item in itemsInChest)
-        //{
-        //    GameManager.Instance.playerInventory.AddItem(item);
-        //}
-        isopen = false;
+        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+        foreach (GameObject item in items)
+        {
+            if (item.layer == LayerMask.NameToLayer("Money"))
+            {
+                Coin moneyItem = item.GetComponent<Coin>();
+                if (moneyItem != null)
+                {
+                    int moneyInItem = moneyItem.GetMoneyAmount();
+                    int totalMoney = int.Parse(moneyQuantity.text);
+                    totalMoney += moneyInItem;
+                    moneyQuantity.text = totalMoney.ToString();
+                }
+            }
+            else if (item.layer == LayerMask.NameToLayer("HealthPotion"))
+            {
+                HealthPotion healthPotionItem = item.GetComponent<HealthPotion>();
+                if (healthPotionItem != null)
+                {
+                    int totalPotion = int.Parse(healthQuantity.text);
+                    int healthPotionQuantity = healthPotionItem.GetHealthPotionAmount();
+                    totalPotion += healthPotionQuantity;
+                    healthQuantity.text = totalPotion.ToString();
+                }
+            }
+            else if (item.layer == LayerMask.NameToLayer("MoralityPotion"))
+            {
+                MoralityPotion moralityPotionItem = item.GetComponent<MoralityPotion>();
+                if (moralityPotionItem != null)
+                {
+                    int totalPotion = int.Parse(moralityQuantity.text);
+                    int moralityPotionQuantity = moralityPotionItem.GetMoralityPotionAmount();
+                    totalPotion += moralityPotionQuantity;
+                    moralityQuantity.text = totalPotion.ToString();
+                }
+            }
+        }
+        isOpen = false;
         inventoryUI.SetActive(false);
     }
 
     public void OnLeaveButtonClicked()
     {
-        isopen = false;
+        isOpen = false;
         inventoryUI.SetActive(false);
     }
 }

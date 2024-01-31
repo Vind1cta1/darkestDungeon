@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class BackGroundScroll : MonoBehaviour
 {
-    [SerializeField] private float scrollSpeed;
-
+    public float scrollSpeed;
+    public PlayerController playerController;
     public ChestController chestController;
     private Renderer backGroundRenderer;
 
@@ -20,11 +20,12 @@ public class BackGroundScroll : MonoBehaviour
 
     private void Update()
     {
-        if(!chestController.isopen)
+        if (!chestController.isOpen)
         {
             float offset = Time.time * scrollSpeed;
             Vector2 offsetVector = new Vector2(offset, 0);
             backGroundRenderer.material.SetTextureOffset("_MainTex", offsetVector);
+            
         }
     }
 }

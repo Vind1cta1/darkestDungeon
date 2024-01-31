@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2779164161960667785}
   - component: {fileID: 2912023255500113438}
   - component: {fileID: 6233394754610007505}
-  m_Layer: 5
+  - component: {fileID: 8855746548425863848}
+  m_Layer: 7
   m_Name: Money
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -90,6 +91,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 4544831632561567891}
+--- !u!114 &8855746548425863848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349465133214323956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f68209eb2184147ac7fac38d9cac1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0
 --- !u!1 &1143674504596340011
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +115,7 @@ GameObject:
   - component: {fileID: 1980488171699428752}
   - component: {fileID: 625568544303153102}
   - component: {fileID: 4544831632561567891}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +169,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 34
+  m_text: 17
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

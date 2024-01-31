@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6436063077268743936}
   - component: {fileID: 8169959670156428884}
   - component: {fileID: 8492000966212216800}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,8 @@ GameObject:
   - component: {fileID: 168388906424265302}
   - component: {fileID: 4931857922519373977}
   - component: {fileID: 7352929159875300357}
-  m_Layer: 5
+  - component: {fileID: 3735607905893617107}
+  m_Layer: 6
   m_Name: HealthPotion
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -224,3 +225,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8492000966212216800}
+--- !u!114 &3735607905893617107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1655967188214514016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669b935008f58a046ba9b861e4006cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healingAmount: 0
+  partyMembers: []

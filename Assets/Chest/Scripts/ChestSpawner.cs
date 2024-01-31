@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChestSpawner : MonoBehaviour
 {
@@ -8,12 +9,12 @@ public class ChestSpawner : MonoBehaviour
     public GameObject coinPrefab;
     public GameObject healthPotionPrefab;
     public GameObject moralityPotionPrefab;
-    public GameObject ringPrefab;
     public TextChanger coinTextChanger;
     public TextChanger healthPotionTextChanger;
     public TextChanger moralityPotionTextChanger;
-    public TextChanger ringTextChanger;
-    public RectTransform canvasRectTransform;
+    public Transform plane;
+    public ChestController chestController;
+    public Vector3 position;
     public float minSpawnTime;
     public float maxSpawnTime;
 
@@ -21,16 +22,16 @@ public class ChestSpawner : MonoBehaviour
     private int coinCount = 0;
     private int healthPotionCount = 0;
     private int moralityPotionCount = 0;
+
     private void Start()
     {
         Invoke("SpawnChest", Random.Range(minSpawnTime, maxSpawnTime));
     }
 
-    private void SpawnChest()
+    public void SpawnChest()
     {
 
-        Vector3 position = new Vector3(10, -3.5f, 0f);
-        if(chest.transform.position.x < -9f)
+        if(chest.transform.position.x <= -10f && !chestController.isInRoom)
         {
             DeleteOldItems();
             chest.transform.position = position;
@@ -40,29 +41,33 @@ public class ChestSpawner : MonoBehaviour
         Invoke("SpawnChest", Random.Range(minSpawnTime, maxSpawnTime));
     }
 
-    public void FillInventoryRandomly()
+    private void FillInventoryRandomly()
     {
         coinCount = Random.Range(10, 101);
         healthPotionCount = Random.Range(0, 2);
         moralityPotionCount = Random.Range(0, 2);
 
+
         UpdateUIText();
 
-        Vector3 spawnPosition = new Vector3(600f, 800f, 0f);
+        Vector3 spawnPosition = new Vector3(0f, 0f, 0f);
         
-        Instantiate(coinPrefab, spawnPosition, Quaternion.identity, canvasRectTransform);
+        Instantiate(coinPrefab, spawnPosition, Quaternion.identity, plane);
+        Coin moneyItem = coinPrefab.GetComponent<Coin>();
+        moneyItem.SetQuantityOfMoney(coinCount);
         if (healthPotionCount != 0)
-        {
-            spawnPosition = spawnPosition + new Vector3(200f, 0f, 0f);
-            Instantiate(healthPotionPrefab, spawnPosition, Quaternion.identity, canvasRectTransform);
+        { 
+            Instantiate(healthPotionPrefab, spawnPosition, Quaternion.identity, plane);
+            HealthPotion healthPotionItem = healthPotionPrefab.GetComponent<HealthPotion>();
+            healthPotionItem.SetQuantityOfHealthPotion(healthPotionCount);
+            
         }
         if (moralityPotionCount != 0)
         {
-            spawnPosition = spawnPosition + new Vector3(200f, 0f, 0f);
-            Instantiate(moralityPotionPrefab, spawnPosition, Quaternion.identity, canvasRectTransform);
+            Instantiate(moralityPotionPrefab, spawnPosition, Quaternion.identity, plane);
+            MoralityPotion moralityPotionItem = moralityPotionPrefab.GetComponent<MoralityPotion>();
+            moralityPotionItem.SetQuantityOfMoralityPotion(moralityPotionCount);
         }
-        spawnPosition = spawnPosition + new Vector3(200f, 0f, 0f);
-        Instantiate(ringPrefab, spawnPosition, Quaternion.identity, canvasRectTransform);
     }
 
     private void UpdateUIText()
@@ -74,7 +79,7 @@ public class ChestSpawner : MonoBehaviour
 
     private void DeleteOldItems()
     {
-        foreach (Transform child in canvasRectTransform)
+        foreach (Transform child in plane)
         {
             if (child.CompareTag("Item"))
             {
