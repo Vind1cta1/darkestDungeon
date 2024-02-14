@@ -1,32 +1,33 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RoomController : MonoBehaviour
 {
     public List<RoomController> neighbours = new List<RoomController>();
     public event Action<RoomController> OnRoomClicked;
+    public Vector3 position;
     public bool isVisited = false;
     public bool isAccessible = false;
-    public Vector3 position;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isVisited)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            int layerMask = LayerMask.GetMask("Room");
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            foreach (var room in neighbours)
             {
-                RoomController clickedRoom = hit.collider.GetComponent<RoomController>();
-                Debug.Log(clickedRoom);
-                if (clickedRoom != null)
-                {
-                    Debug.Log("Room Clicked!");
-                    OnRoomClicked?.Invoke(clickedRoom);
-                }
+                room.isAccessible = true;
             }
+        }
+    }
+    public void OnRoomClickedEvent(BaseEventData eventData)
+    { 
+        RoomController clickedRoom = eventData.selectedObject.GetComponent<RoomController>();
+
+        if (clickedRoom != null)
+        {
+            OnRoomClicked?.Invoke(clickedRoom);
         }
     }
 
@@ -42,10 +43,6 @@ public class RoomController : MonoBehaviour
 
     public void AddNeighbour(RoomController neighbour)
     {
-        if(isVisited)
-        {
-            neighbour.isAccessible = true;
-        }
         neighbours.Add(neighbour);
     }
 }

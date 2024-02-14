@@ -7,7 +7,6 @@ public class Coin: MonoBehaviour
     public void SetQuantityOfMoney(int value)
     {
         this.value = value;
-        Debug.Log(value);
     }
 
     public int GetMoneyAmount()

@@ -1,18 +1,18 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     public ChestController chestController;
+    public EnemyController enemyController;
+    public SpawnEnemy spawnEnemy;
     public GameObject roomUI;
     public GameObject BGCorridor;
     public GameObject chest;
     public GameObject roomPrefab;
     public GameObject pathPrefab;
+    public GameObject gameEndMenu;
     public List<GameObject> roomBackGround;
     public List<Vector3> predefinedPoints;
     public Transform map;
@@ -23,16 +23,15 @@ public class GameController : MonoBehaviour
 
     private RoomController currentRoom;
     private List<RoomController> createdRooms = new List<RoomController>();
-    private Coroutine roomCoroutine;
+    private Image buttonImage;
     private int selectBackGround;
     private bool isTransitioning = false;
-    private bool isRoomBackgroundRandomized = false;
+    private bool isRoomBGRandomized;
 
     private void Start()
     {
-        chestController = FindObjectOfType<ChestController>();
-        chest = chestController.gameObject;
-        selectBackGround = UnityEngine.Random.Range(0, roomBackGround.Count);
+        selectBackGround = Random.Range(0, roomBackGround.Count);
+        isRoomBGRandomized = true;
         foreach (var backGround in roomBackGround)
         {
             backGround.SetActive(false);
@@ -58,60 +57,62 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (!chestController.isInRoom && !chestController.isOpen && !isTransitioning)
+        if(chestController.amountOfOpenChests >= 2 && IsChestOutOfCamera())
         {
-            if (IsChestOutOfCamera())
+            SpawnRoomAfterDelay();
+            chestController.amountOfOpenChests = 0;
+        }
+        if(createdRooms.Count > 0)
+        {
+            foreach(RoomController room in createdRooms)
             {
-                isTransitioning = true;
-                StartCoroutine(SpawnRoomAfterDelay());
+                if(room.isVisited == false)
+                {
+                    return;
+                }
+            }
+            if(chestController.isInRoom && enemyController.enemyIsDied)
+            {
+                gameEndMenu.SetActive(true);
             }
         }
     }
 
     public void IsRoomButtonPressed()
     {
-        if (roomCoroutine != null)
+        if (currentRoom != null && currentRoom.isAccessible && !currentRoom.isVisited && enemyController.enemyIsDied)
         {
-            StopCoroutine(roomCoroutine);
-        }
-        //if (currentRoom != null && currentRoom.isAccessible)
-        //{
+            currentRoom.MarkAsVisited();
+            buttonImage = currentRoom.GetComponent<Image>();
+            buttonImage.color = Color.red;
             chestController.isInRoom = false;
             BGCorridor.SetActive(true);
             roomUI.SetActive(false);
             isTransitioning = true;
-            isRoomBackgroundRandomized = false;
-            roomCoroutine = StartCoroutine(SpawnRoomAfterDelay());
-        //}
+            Invoke("SpawnRoomAfterDelay", Random.Range(minRoomTime, maxRoomTime));
+        }
     }
 
-    private IEnumerator SpawnRoomAfterDelay()
+    private void SpawnRoomAfterDelay()
     {
-        yield return new WaitForSeconds(UnityEngine.Random.Range(minRoomTime, maxRoomTime));
-
         if (!chestController.isOpen && IsChestOutOfCamera())
         {
-            if (!isRoomBackgroundRandomized)
+            if(!isRoomBGRandomized)
             {
-                selectBackGround = UnityEngine.Random.Range(0, roomBackGround.Count);
+                selectBackGround = Random.Range(0, roomBackGround.Count);
+                isRoomBGRandomized = true;
                 foreach (var backGround in roomBackGround)
                 {
                     backGround.SetActive(false);
                 }
                 roomBackGround[selectBackGround].SetActive(true);
-                isRoomBackgroundRandomized = true;
             }
+            spawnEnemy.SpawnEnemyCharacter();
             chest.transform.position = new Vector3(-10f, -2f, -1f);
             chestController.isInRoom = true;
             roomUI.SetActive(true);
             BGCorridor.SetActive(false);
-        }
-
-        isTransitioning = false;
-
-        if (!chestController.isOpen && IsChestOutOfCamera())
-        {
-            StartCoroutine(SpawnRoomAfterDelay());
+            isTransitioning = false;
         }
     }
 
@@ -127,9 +128,9 @@ public class GameController : MonoBehaviour
 
         for (int i = 0; i < numberOfRooms; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, availablePoints.Count);
+            int randomIndex = Random.Range(0, availablePoints.Count);
             Vector3 randomPredefinedPosition = availablePoints[randomIndex];
-            Vector3 randomWorldPosition = map.transform.TransformPoint(randomPredefinedPosition) + new Vector3(280f, -110f, 0f);
+            Vector3 randomWorldPosition = map.transform.TransformPoint(randomPredefinedPosition) + new Vector3(280f, -100f, 0f);
             GameObject newRoom = Instantiate(roomPrefab, randomWorldPosition, Quaternion.identity, map.transform);
             RoomController newRoomController = newRoom.GetComponent<RoomController>();
             newRoomController.SetPosition(randomWorldPosition);
@@ -139,7 +140,9 @@ public class GameController : MonoBehaviour
 
         createdRooms.Sort((a, b) => a.position.x.CompareTo(b.position.x));
         currentRoom = createdRooms[0];
+        buttonImage = currentRoom.GetComponent<Image>();
         currentRoom.MarkAsVisited();
+        buttonImage.color = Color.red;
 
         for (int i = 0; i < createdRooms.Count; i++)
         {
@@ -197,5 +200,6 @@ public class GameController : MonoBehaviour
     private void HandleRoomClicked(RoomController room)
     {
         currentRoom = room;
+        IsRoomButtonPressed();
     }
 }

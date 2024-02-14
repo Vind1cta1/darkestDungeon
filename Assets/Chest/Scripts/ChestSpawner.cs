@@ -44,7 +44,7 @@ public class ChestSpawner : MonoBehaviour
     private void FillInventoryRandomly()
     {
         coinCount = Random.Range(10, 101);
-        healthPotionCount = Random.Range(0, 2);
+        healthPotionCount = Random.Range(0, 3);
         moralityPotionCount = Random.Range(0, 2);
 
 

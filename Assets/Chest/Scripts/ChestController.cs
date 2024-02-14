@@ -5,10 +5,6 @@ using System.Timers;
 
 public class ChestController : MonoBehaviour
 {
-    private float chestSpeed = 5.45f;
-
-    public bool isOpen;
-    public bool isInRoom = true;
     public PlayerController playerController;
     public GameObject inventoryUI;
     public TMP_Text moneyQuantity;
@@ -17,11 +13,12 @@ public class ChestController : MonoBehaviour
     public TextChanger coinTextChanger;
     public TextChanger healthPotionTextChanger;
     public TextChanger moralityPotionTextChanger;
+    public bool isOpen;
+    public bool isInRoom = true;
+    public int amountOfOpenChests;
 
-    private void Start()
-    {
-        playerController = FindObjectOfType<PlayerController>();
-    }
+    private float chestSpeed = 5.45f;
+
     private void Update()
     {
         if(!isInRoom)
@@ -37,6 +34,7 @@ public class ChestController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            amountOfOpenChests++;
             isOpen = true;
             inventoryUI.SetActive(true);
         }
@@ -49,36 +47,24 @@ public class ChestController : MonoBehaviour
         {
             if (item.layer == LayerMask.NameToLayer("Money"))
             {
-                Coin moneyItem = item.GetComponent<Coin>();
-                if (moneyItem != null)
-                {
-                    int moneyInItem = moneyItem.GetMoneyAmount();
-                    int totalMoney = int.Parse(moneyQuantity.text);
-                    totalMoney += moneyInItem;
-                    moneyQuantity.text = totalMoney.ToString();
-                }
+                int moneyInItem = int.Parse(coinTextChanger.GetText());
+                int totalMoney = int.Parse(moneyQuantity.text);
+                totalMoney += moneyInItem;
+                moneyQuantity.text = totalMoney.ToString();
             }
             else if (item.layer == LayerMask.NameToLayer("HealthPotion"))
             {
-                HealthPotion healthPotionItem = item.GetComponent<HealthPotion>();
-                if (healthPotionItem != null)
-                {
-                    int totalPotion = int.Parse(healthQuantity.text);
-                    int healthPotionQuantity = healthPotionItem.GetHealthPotionAmount();
-                    totalPotion += healthPotionQuantity;
-                    healthQuantity.text = totalPotion.ToString();
-                }
+                int totalPotion = int.Parse(healthQuantity.text);
+                int healthPotionQuantity = int.Parse(healthPotionTextChanger.GetText());
+                totalPotion += healthPotionQuantity;
+                healthQuantity.text = totalPotion.ToString();
             }
             else if (item.layer == LayerMask.NameToLayer("MoralityPotion"))
             {
-                MoralityPotion moralityPotionItem = item.GetComponent<MoralityPotion>();
-                if (moralityPotionItem != null)
-                {
-                    int totalPotion = int.Parse(moralityQuantity.text);
-                    int moralityPotionQuantity = moralityPotionItem.GetMoralityPotionAmount();
-                    totalPotion += moralityPotionQuantity;
-                    moralityQuantity.text = totalPotion.ToString();
-                }
+                int totalPotion = int.Parse(moralityQuantity.text);
+                int moralityPotionQuantity = int.Parse(moralityPotionTextChanger.GetText());
+                totalPotion += moralityPotionQuantity;
+                moralityQuantity.text = totalPotion.ToString();
             }
         }
         isOpen = false;

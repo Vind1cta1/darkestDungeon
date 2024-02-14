@@ -5,17 +5,16 @@ using UnityEngine;
 public class HealthPotion : MonoBehaviour 
 {
     private int healingAmount;
-    private List<Character> partyMembers;
+    private List<PlayerCharacter> partyMembers;
 
     public void SetQuantityOfHealthPotion(int healingAmount)
     {
         this.healingAmount = healingAmount;
-        Debug.Log(healingAmount);
     }
 
     public void Use()
     {
-        foreach (Character character in partyMembers)
+        foreach (PlayerCharacter character in partyMembers)
         {
             character.ReceiveHealing(healingAmount);
         }

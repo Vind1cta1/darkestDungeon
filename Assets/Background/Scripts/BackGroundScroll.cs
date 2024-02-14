@@ -3,14 +3,8 @@ using UnityEngine;
 public class BackGroundScroll : MonoBehaviour
 {
     public float scrollSpeed;
-    public PlayerController playerController;
     public ChestController chestController;
     private Renderer backGroundRenderer;
-
-    private void Awake()
-    {
-        chestController = FindObjectOfType<ChestController>();
-    }
 
     private void Start()
     {
