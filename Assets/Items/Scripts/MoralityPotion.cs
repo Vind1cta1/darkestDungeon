@@ -13,14 +13,6 @@ public class MoralityPotion : MonoBehaviour
         this.moralityAmount = moralityAmount;
     }
 
-    public void Use()
-    {
-        foreach (PlayerCharacter character in partyMembers)
-        {
-            character.RestoreMorale(moralityAmount);
-        }
-    }
-
     public int GetMoralityPotionAmount()
     {
         return moralityAmount;

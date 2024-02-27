@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     public ChestController chestController;
     public EnemyController enemyController;
+    public PlayerController playerController;
     public SpawnEnemy spawnEnemy;
     public GameObject roomUI;
     public GameObject BGCorridor;
@@ -71,7 +72,7 @@ public class GameController : MonoBehaviour
                     return;
                 }
             }
-            if(chestController.isInRoom && enemyController.enemyIsDied)
+            if(playerController.isInRoom && enemyController.enemyIsDied)
             {
                 gameEndMenu.SetActive(true);
             }
@@ -82,10 +83,17 @@ public class GameController : MonoBehaviour
     {
         if (currentRoom != null && currentRoom.isAccessible && !currentRoom.isVisited && enemyController.enemyIsDied)
         {
+            foreach(PlayerCharacter character in playerController.GetComponentsInChildren<PlayerCharacter>())
+            {
+                if(character.health <= 0)
+                {
+                    character.Die();
+                }
+            }
             currentRoom.MarkAsVisited();
             buttonImage = currentRoom.GetComponent<Image>();
             buttonImage.color = Color.red;
-            chestController.isInRoom = false;
+            playerController.isInRoom = false;
             BGCorridor.SetActive(true);
             roomUI.SetActive(false);
             isTransitioning = true;
@@ -109,7 +117,7 @@ public class GameController : MonoBehaviour
             }
             spawnEnemy.SpawnEnemyCharacter();
             chest.transform.position = new Vector3(-10f, -2f, -1f);
-            chestController.isInRoom = true;
+            playerController.isInRoom = true;
             roomUI.SetActive(true);
             BGCorridor.SetActive(false);
             isTransitioning = false;

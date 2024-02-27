@@ -12,14 +12,6 @@ public class HealthPotion : MonoBehaviour
         this.healingAmount = healingAmount;
     }
 
-    public void Use()
-    {
-        foreach (PlayerCharacter character in partyMembers)
-        {
-            character.ReceiveHealing(healingAmount);
-        }
-    }
-
     public int GetHealthPotionAmount()
     {
         return healingAmount;

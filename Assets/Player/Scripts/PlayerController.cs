@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayerMask;
     public TMP_Text amountOfHealthPotion;
     public TMP_Text amountOfMoralityPotion;
+    public int healthPower;
+    public int moralityPower;
+    public bool isInRoom;
 
     private EnemyCharacter selectedEnemy;
 
@@ -19,25 +22,22 @@ public class PlayerController : MonoBehaviour
         {
             foreach (PlayerCharacter character in gameObject.GetComponentsInChildren<PlayerCharacter>())
             {
-                if (!character.isAttacked) 
+                if (!character.isAttacked && character.health > 0) 
                 {
                     bool buttonPressed = false;
                     while (!buttonPressed)
                     {
-                        if (Input.GetMouseButtonDown(0) && chestController.isInRoom && !enemyController.enemyIsDied)
+                        if (Input.GetMouseButtonDown(0) && isInRoom && !enemyController.enemyIsDied)
                         {
                             RaycastHit hit;
                             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                             if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyLayerMask))
                             {
-                                selectedEnemy = hit.collider.GetComponent<EnemyCharacter>();
+                                selectedEnemy = hit.collider.GetComponentInChildren<EnemyCharacter>();
                             }
                             if (selectedEnemy != null)
                             {
-                                
-                                selectedEnemy.health -= character.damage;
-                                selectedEnemy = null;
-                                character.isAttacked = true;
+                                StartCoroutine(WaitForAttack(character));
                             }
                             buttonPressed = true;
                         }
@@ -55,7 +55,10 @@ public class PlayerController : MonoBehaviour
         {
             foreach (PlayerCharacter character in gameObject.GetComponentsInChildren<PlayerCharacter>())
             {
-                character.health += 15;
+                if(character.health > 0)
+                {
+                    character.health += healthPower;
+                }
             }
             int currentAmountOfPotion = int.Parse(amountOfHealthPotion.text);
             currentAmountOfPotion--;
@@ -70,11 +73,24 @@ public class PlayerController : MonoBehaviour
         {
             foreach (PlayerCharacter character in gameObject.GetComponentsInChildren<PlayerCharacter>())
             {
-                character.morality += 10;
+                if (character.health > 0)
+                {
+                    character.morality += moralityPower;
+                }
             }
             int currentAmountOfPotion = int.Parse(amountOfMoralityPotion.text);
             currentAmountOfPotion--;
             amountOfMoralityPotion.text = currentAmountOfPotion.ToString();
         }   
+    }
+
+    IEnumerator WaitForAttack(PlayerCharacter character)
+    {
+        Animator animator = character.GetComponent<Animator>();
+        animator.CrossFade("Attack", 1f);
+        selectedEnemy.health -= character.damage;
+        selectedEnemy = null;
+        character.isAttacked = true;
+        yield return new WaitForSeconds(4);
     }
 }

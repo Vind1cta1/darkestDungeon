@@ -6,25 +6,38 @@ using UnityEngine.EventSystems;
 public class EnemyCharacter : MonoBehaviour
 {
     public RectTransform healthBar;
-    public RectTransform moraleBar;
     public Transform character;
     public Canvas canvas;
     public GameObject healthAndMorality;
+    public GameObject prefabGameObject;
     public float distanceY;
+    public float offsetY;
     public int health;
     public int damage;
 
+    private Animator animator;
+    private static int animMoveId;
+    private static int animHpId;
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
+        animMoveId = Animator.StringToHash("IsInRoom");
+        animHpId = Animator.StringToHash("HpAmount");
         UpdateHealthAndMoralityPosition();
     }
 
     private void Update()
     {
+        if(health <=0)
+        {
+            health = 0;
+        }
         healthBar.localScale = new Vector3(health / 100f, 1f, 1f);
         if(health <= 0)
         {
-            Die();
+            animator.SetInteger(animHpId, -1);
+            StartCoroutine(WaitForAnimation());
         }
     }
 
@@ -34,13 +47,19 @@ public class EnemyCharacter : MonoBehaviour
         healthAndMorality.transform.position = characterScreenPosition + new Vector3(0f, distanceY, 0f);
     }
 
-    public void TakeDamage(int damage)
+    IEnumerator WaitForAnimation()
     {
-        health -= damage;
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+        {
+            Transform transform = GetComponent<Transform>();
+            transform.position = new Vector3(transform.position.x, offsetY, transform.position.z);
+        }
+        yield return new WaitForSeconds(2);
+        Die();
     }
 
     private void Die()
     {
-        Destroy(gameObject);
+        Destroy(prefabGameObject);
     }
 }

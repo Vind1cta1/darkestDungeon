@@ -1462,6 +1462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d73f93c4ef24054f9bfcecff315ed6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chestController: {fileID: 2104358668}
+  playerController: {fileID: 1479213899}
   chest: {fileID: 2104358662}
   coinPrefab: {fileID: 349465133214323956, guid: 2318291e4b12d9a41b428a57c1475af2, type: 3}
   healthPotionPrefab: {fileID: 1655967188214514016, guid: 44ddd6503d22f7c49854ae7dd6af3fe5, type: 3}
@@ -1470,7 +1472,6 @@ MonoBehaviour:
   healthPotionTextChanger: {fileID: 7352929159875300357, guid: 44ddd6503d22f7c49854ae7dd6af3fe5, type: 3}
   moralityPotionTextChanger: {fileID: 5857768828378718662, guid: 9ecaa04c881ddf341999314b55bbeb67, type: 3}
   plane: {fileID: 1917009848}
-  chestController: {fileID: 2104358668}
   position: {x: 10, y: -2, z: 2}
   minSpawnTime: 2
   maxSpawnTime: 5
@@ -1487,7 +1488,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterPrefab:
-  - {fileID: 2338726716474357615, guid: e29b553799208f4499fb51093cd67865, type: 3}
+  - {fileID: 204844758719562820, guid: 62de9896d08bf8840a3ada47fd8a45dd, type: 3}
+  - {fileID: 2804425512588291703, guid: 4ba1649c40c4e5b438f2c4d4eb1a35d0, type: 3}
   player: {fileID: 1479213896}
   spawnPosition: {x: -3, y: -1.5, z: 1}
   distanceBetweenCharacters: {x: 2, y: 0, z: 0}
@@ -1505,6 +1507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chestController: {fileID: 2104358668}
   enemyController: {fileID: 499416346}
+  playerController: {fileID: 1479213899}
   spawnEnemy: {fileID: 519420038}
   roomUI: {fileID: 1851928650}
   BGCorridor: {fileID: 231405324}
@@ -1544,7 +1547,8 @@ MonoBehaviour:
   enemyController: {fileID: 499416346}
   enemy: {fileID: 499416342}
   enemies:
-  - {fileID: 2338726716474357615, guid: e32794debfa731449a0bb1b6fa8c19a2, type: 3}
+  - {fileID: 204844758719562820, guid: 7f8f74a1a05896949936af31add47adb, type: 3}
+  - {fileID: 9148392163727730808, guid: a457adcacd337ad4dbb427f5639bce53, type: 3}
   spawnPosition: {x: 3, y: -1.5, z: 1}
   distanceBetweenEnemies: {x: 2, y: 0, z: 0}
   numberOfEnemies: 3
@@ -3030,6 +3034,9 @@ MonoBehaviour:
     m_Bits: 512
   amountOfHealthPotion: {fileID: 632103956}
   amountOfMoralityPotion: {fileID: 294612079}
+  healthPower: 20
+  moralityPower: 15
+  isInRoom: 1
 --- !u!1 &1709341112
 GameObject:
   m_ObjectHideFlags: 0
@@ -4064,7 +4071,6 @@ MonoBehaviour:
   healthPotionTextChanger: {fileID: 7352929159875300357, guid: 44ddd6503d22f7c49854ae7dd6af3fe5, type: 3}
   moralityPotionTextChanger: {fileID: 5857768828378718662, guid: 9ecaa04c881ddf341999314b55bbeb67, type: 3}
   isOpen: 0
-  isInRoom: 1
   amountOfOpenChests: 0
 --- !u!1001 &8173290481635253308
 PrefabInstance:
@@ -4152,7 +4158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5308360996201748074, guid: d9ae14fa8988a8842aa45b6fc128d5e8, type: 3}
       propertyPath: characterPrefab.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5308360996201748074, guid: d9ae14fa8988a8842aa45b6fc128d5e8, type: 3}
       propertyPath: distanceBetweenCharacters.x

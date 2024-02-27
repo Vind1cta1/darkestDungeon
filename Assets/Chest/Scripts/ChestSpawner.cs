@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ChestSpawner : MonoBehaviour
 {
+    public ChestController chestController;
+    public PlayerController playerController;
     public GameObject chest;
     public GameObject coinPrefab;
     public GameObject healthPotionPrefab;
@@ -13,7 +15,6 @@ public class ChestSpawner : MonoBehaviour
     public TextChanger healthPotionTextChanger;
     public TextChanger moralityPotionTextChanger;
     public Transform plane;
-    public ChestController chestController;
     public Vector3 position;
     public float minSpawnTime;
     public float maxSpawnTime;
@@ -31,7 +32,7 @@ public class ChestSpawner : MonoBehaviour
     public void SpawnChest()
     {
 
-        if(chest.transform.position.x <= -10f && !chestController.isInRoom)
+        if(chest.transform.position.x <= -10f && !playerController.isInRoom)
         {
             DeleteOldItems();
             chest.transform.position = position;

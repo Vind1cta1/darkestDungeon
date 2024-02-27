@@ -14,14 +14,13 @@ public class ChestController : MonoBehaviour
     public TextChanger healthPotionTextChanger;
     public TextChanger moralityPotionTextChanger;
     public bool isOpen;
-    public bool isInRoom = true;
     public int amountOfOpenChests;
 
     private float chestSpeed = 5.45f;
 
     private void Update()
     {
-        if(!isInRoom)
+        if(!playerController.isInRoom)
         {
             if (!isOpen && transform.position.x > -10f)
             {

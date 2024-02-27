@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class EnemyController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class EnemyController : MonoBehaviour
     public GameObject gameEndMenu;
     public bool enemyIsAttacking;
     public bool enemyIsDied;
+
+    private int randomPlayerCharacter;
+    private List<PlayerCharacter> aliveCharacters;
 
     private void Update()
     {
@@ -20,14 +24,29 @@ public class EnemyController : MonoBehaviour
             if(playerCharacters.Count == 0) 
             {
                 gameEndMenu.SetActive(true);
+                return;
             }
             foreach (EnemyCharacter child in GetComponentsInChildren<EnemyCharacter>())
             {
-                if(child != null)
+                if(child != null && child.health > 0)
                 {
-                    int randomPlayerCharacter = Random.Range(0, playerCharacters.Count);
-                    playerCharacters[randomPlayerCharacter].health -= child.damage;
-                    playerCharacters[randomPlayerCharacter].morality -= child.damage / 2;
+                    aliveCharacters = playerCharacters.FindAll(character => character.health > 0);
+                    if(aliveCharacters.Count > 0)
+                    {
+                        randomPlayerCharacter = Random.Range(0, aliveCharacters.Count);
+                        if (aliveCharacters[randomPlayerCharacter] != null)
+                        {
+                            Animator animator = child.GetComponent<Animator>();
+                            animator.CrossFade("Attack", 1f);
+                            aliveCharacters[randomPlayerCharacter].health -= child.damage;
+                            aliveCharacters[randomPlayerCharacter].morality -= child.damage / 2;
+                        }
+                    }
+                    else
+                    {
+                        gameEndMenu.SetActive(true);
+                        return;
+                    }
                 }
             }
             enemyIsAttacking = false;
